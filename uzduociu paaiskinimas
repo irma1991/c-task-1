@@ -1,0 +1,130 @@
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+
+using namespace std;
+   ifstream in("duom.txt");
+   ofstream out("rez.txt");
+   int kiekis();
+   void skaitymas(int Masyvas[], int kiek);
+   void rasom(int Masyvas[], int kiek, string tekstas);
+   void rikiavimas(int Masyvas[], int kiek);
+   void radimas(int Masyvas[], int kiek, int &kitasMax, int kelintas);
+
+
+int main()
+{
+    int n,// n- A masyvo elementu skaicius
+        m;// m- B masyvo elementu skaicius
+        n=kiekis();
+        m=kiekis();
+    int A[n], B[m];
+        skaitymas(A, n);
+        skaitymas(B, m);
+        rasom(A, n, "A");
+        rasom(B, m, "B");
+        rikiavimas(A,n);
+        rasom(A,n, "surikiuotas A");
+    int antrasMax;
+        radimas(A,n,antrasMax,2);
+        cout<<                                                                                                                                                                 antrasMax;
+
+    in.close();
+    out.close();
+ return 0;
+}
+//---------------kiekis-------------------
+    int kiekis()
+    {
+        int kiek;
+        in>>kiek;
+        return kiek;
+    }
+//----------------------------------------
+//------------------Skaitom---------------
+ void skaitymas(int Masyvas[], int kiek)
+ {
+     for(int i=0; i<kiek; i++){
+                        in>>Masyvas[i];
+                                        }
+ }
+//----------------------------------------
+//-------------------Rasom------------------
+void rasom(int Masyvas[], int kiek, string tekstas)
+{
+    out<<"Masyvas "<<tekstas<<endl;
+    for(int i=0; i<kiek; i++){out<<Masyvas[i]<<" ";}
+    out<<endl;
+}
+//--------------------------
+//----------------rikiavimas-----------
+void rikiavimas(int Masyvas[], int kiek)
+{
+    int laikinas;
+    for(int i=0; i<kiek; i++)
+    {
+        for(int j=1; j<kiek-i; j++)
+        {
+            if(Masyvas[j-1]<=Masyvas[j])
+            {
+                /*laikinas=Masyvas[j];
+                Masyvas[j]=Masyvas[j-1];
+                Masyvas[j-1]=laikinas; */
+
+                swap(Masyvas[j], Masyvas[j-1]);
+            }
+        }
+    }
+}
+
+//--------------radimas---------------
+void radimas(int Masyvas[], int kiek, int &kitasMax, int kelintas)
+{
+    int k=1;
+    for(int i=1; i<kiek; i++)
+    {
+        if(Masyvas[i]!=Masyvas[i-1])
+        {
+            k++;
+            if(k==kelintas)
+            {
+                kitasMax=Masyvas[i];
+                break;
+            }
+        }
+    }
+}
+//---------naujas masyvas
+void naujasMasyvas (int MasyvasA[], int MasyvasB[], int kiek, int MasyvasC)
+{
+    for (int i=0; i<kiek; i++)
+    {
+        MasyvasC[i]=MasyvasA[i]+MasyvasB[i];
+    }
+}
+//-----------suma
+void sumavimas (int Masyvas[], int kiek, int koNesumuojam, int &suma)
+{
+    suma=0;
+    for(int i=0; int<kiek; i++)
+    {
+        if(Masyvas[i]!=koNesumuojam and Masyvas[i]>0)
+        {
+            suma=suma+Masyvas[i];
+        }
+    }
+}
+
+//----------elementu numeriai
+void elementuNumeriai(int Masyvas[], int kiek, int elMasyvas[], int &elKiek, int kriterijus)
+{
+    elKiek=0;
+    for(int i=0; int<kiek; i++)
+    {
+        if(Masyvas[i]==kriterijus)
+        {
+            elMasyvas[elKiek]==i;
+            elKiek++;
+        }
+    }
+}
