@@ -1,0 +1,7 @@
+6
+Jonas              Simavicius    8.6
+Algimantas         Jonaitis      6.7
+Tadas              Brazauskas    5.6
+Aurimas            Petrauskas    6.8
+Vytuolis           Kiprauskas    8.9
+Arnas              Jotauta       5.6
