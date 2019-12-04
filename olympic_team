@@ -1,1 +1,111 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+ofstream out ("rez123456.txt");
+struct komanda{
+    string vardas;
+    float laikas;
+    int metai;
+
+};
+
+void kiekisElementu(int &kiekis, const char byla[]);
+void skaitom(komanda Duomenys[], int kiekis, const char byla[]);
+void rasom(komanda Duomenys[], int kiekis, string txt);
+void kuriam(komanda Duomenys[], int kiekis, komanda BendriDuomenys[], int nuoKiek);
+void rikiavimas(komanda BendriDuomenys[], int kiekis);
+void rasom(komanda BendriDuomenys[], int kiekis, string txt);
+
+int main()
+{
+
+    int kiek1, kiek2;
+    const char duomenys1[] = "kom1.txt";
+    const char duomenys2[] = "kom2.txt";
+    kiekisElementu(kiek1, duomenys1);
+    kiekisElementu(kiek2, duomenys2);
+    komanda begikai1[kiek1], begikai2[kiek2], bendraKomanda[kiek1+kiek2];
+    int kiekisViso;
+    kiekisViso = kiek1+kiek2;
+    skaitom(begikai1, kiek1, duomenys1);
+    skaitom(begikai2, kiek2, duomenys2);
+    rasom(begikai1, kiek1, "Pirma komanda \n");
+    rasom(begikai2, kiek2, "Antra komanda \n");
+    kuriam(begikai1,kiek1, bendraKomanda, 0);
+    kuriam(begikai2,kiek2, bendraKomanda, kiek1);
+    rasom(bendraKomanda, kiekisViso, "Bendra komanda \n");
+    rikiavimas(bendraKomanda, kiekisViso);
+    rasom(bendraKomanda, kiekisViso, "Bendra komanda \n");
+
+    return 0;
+}
+
+//----------------------SKAITOM
+void kiekisElementu(int &kiekis, const char byla[]){
+    ifstream in(byla);
+    komanda LaikStruktura[1];
+    kiekis = 0;
+    while(!in.eof()){
+        in>>LaikStruktura[0].vardas>>LaikStruktura[0].laikas>>LaikStruktura[0].metai; // skaitom nuo pirmo elemnto, tai masyve - [0]
+        kiekis++;
+    }
+    in.seekg(0);
+    in.close();
+}
+
+//---------------------------SKAITOM
+void skaitom(komanda Duomenys[], int kiekis, const char byla[]){
+    ifstream in(byla);
+    for(int i=0; i<kiekis; i++){
+        in>>Duomenys[i].vardas>>Duomenys[i].laikas>>Duomenys[i].metai;
+    }
+    in.close();
+}
+
+//-------------------RASOM
+void rasom(komanda Duomenys[], int kiekis, string txt){
+    out<<txt;
+    for(int i=0; i<kiekis; i++){
+        out<<setw(20)<<left<<Duomenys[i].vardas<<setw(4)<<right<<Duomenys[i].laikas<<setw(4)<<right<<Duomenys[i].metai;
+        out<<endl;
+    }
+}
+
+//----------------KURIAM
+void kuriam(komanda Duomenys[], int kiekis, komanda BendriDuomenys[], int nuoKiek){
+
+
+    for(int i=0; i<kiekis; i++){
+            BendriDuomenys[nuoKiek].vardas = Duomenys[i].vardas;
+            BendriDuomenys[nuoKiek].laikas = Duomenys[i].laikas;
+            BendriDuomenys[nuoKiek].metai = Duomenys[i].metai;
+            nuoKiek++;
+
+
+    }
+}
+
+//---------------RIKIAVIMAS
+void rikiavimas(komanda BendriDuomenys[], int kiekis)
+{
+    int laikinas;
+    for(int i=0; i<kiekis; i++)
+    {
+        for(int j=1; j<kiekis-i; j++)
+        {
+            if(BendriDuomenys[j-1].laikas>=BendriDuomenys[j].laikas)
+            {
+                laikinas=BendriDuomenys[j].laikas;
+                BendriDuomenys[j].laikas=BendriDuomenys[j-1].laikas;
+                BendriDuomenys[j-1].laikas=laikinas;
+;
+            }
+        }
+    }
+}
+
+
 
