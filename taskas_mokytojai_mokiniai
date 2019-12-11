@@ -28,6 +28,7 @@ struct mokiniai{
     void rasomMokytojus(mokytojai mokytojaiDuomenys[], int kiekMokytoju, string text);
     void rasomMokinius(mokiniai mokiniaiDuomenys[], int kiekMokiniu, string text);
     void ieskomVienoduDalyku(mokytojai mokytojaiDuomenys[], int kiekMokytoju, mokiniai mokiniaiDuomenys[], int kiekMokiniu);
+    void ieskomDaugiausiaiMokiniu(mokytojai mokytojaiDuomenys[], int kiekMokytoju);
 
 int main()
 {
@@ -46,9 +47,10 @@ int main()
 
     skaitomMokytojus(Mokytojai, kiekMokytoju, duomenysMokytojai);
     skaitomMokinius(Mokiniai, kiekMokiniu, duomenysMokiniai);
+    ieskomVienoduDalyku(Mokytojai, kiekMokytoju, Mokiniai, kiekMokiniu);
+    ieskomDaugiausiaiMokiniu(Mokytojai, kiekMokytoju);
     rasomMokytojus(Mokytojai, kiekMokytoju, "Mokytojai \n");
     rasomMokinius(Mokiniai, kiekMokiniu, "Mokiniai \n");
-    ieskomVienoduDalyku(Mokytojai, kiekMokytoju, Mokiniai, kiekMokiniu);
 
     out.close();
     return 0;
@@ -97,7 +99,7 @@ int main()
 void rasomMokytojus(mokytojai mokytojaiDuomenys[], int kiekMokytoju, string text){
     out<<text;
     for(int i=0; i<kiekMokytoju; i++){
-        out<<setw(4)<<left<<"Vardas: "<<mokytojaiDuomenys[i].vardas<<" Pavarde: "<<setw(4)<<right<<mokytojaiDuomenys[i].pavarde<<" Dalykas: "<<setw(4)<<right<<mokytojaiDuomenys[i].dalykas;
+        out<<setw(4)<<left<<"Vardas: "<<mokytojaiDuomenys[i].vardas<<" Pavarde: "<<setw(4)<<right<<mokytojaiDuomenys[i].pavarde<<" Dalykas: "<<setw(4)<<right<<mokytojaiDuomenys[i].dalykas<<" "<<mokytojaiDuomenys[i].mokiniuSkaicius;
         out<<endl;
     }
 
@@ -123,5 +125,15 @@ void ieskomVienoduDalyku(mokytojai mokytojaiDuomenys[], int kiekMokytoju, mokini
         }
     mokytojaiDuomenys[i].mokiniuSkaicius=laikinas;
     cout<<mokytojaiDuomenys[i].mokiniuSkaicius<<" "<<mokytojaiDuomenys[i].dalykas<<endl;
+    }
+}
+
+void ieskomDaugiausiaiMokiniu(mokytojai mokytojaiDuomenys[], int kiekMokytoju){
+    int daugiausiaiMokiniu;
+    for(int i=0; i<kiekMokytoju; i++){
+        daugiausiaiMokiniu=mokytojaiDuomenys[i];
+        if(mokytojaiDuomenys[i]>daugiausiaiMokiniu){
+            daugiausiaiMokiniu = mokytojaiDuomenys[i];
+        }
     }
 }
