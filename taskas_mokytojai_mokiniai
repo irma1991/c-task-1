@@ -1,0 +1,127 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+ofstream out("rezultatai.txt");
+
+struct mokytojai{
+    string vardas;
+    string pavarde;
+    string dalykas;
+    int mokiniuSkaicius;
+    };
+
+struct mokiniai{
+    string vardas;
+    string pavarde;
+    string dalykas;
+    int pazimys;
+    int mokytojoIdeksas;
+    };
+
+    void kiekisMokytoju(int &kiekMokytoju, const char byla1[]);
+    void kiekisMokiniu(int &kiekMokiniu, const char byla2[]);
+    void skaitomMokytojus(mokytojai mokytojaiDuomenys[], int kiekMokytoju, const char byla1[]);
+    void skaitomMokinius(mokiniai mokiniaiDuomenys[], int kiekMokiniu, const char byla2[]);
+    void rasomMokytojus(mokytojai mokytojaiDuomenys[], int kiekMokytoju, string text);
+    void rasomMokinius(mokiniai mokiniaiDuomenys[], int kiekMokiniu, string text);
+    void ieskomVienoduDalyku(mokytojai mokytojaiDuomenys[], int kiekMokytoju, mokiniai mokiniaiDuomenys[], int kiekMokiniu);
+
+int main()
+{
+
+    int kiekMokytoju, kiekMokiniu;
+    const char duomenysMokytojai[] = "mokytojai.txt";
+    const char duomenysMokiniai[] = "mokiniai.txt";
+
+    kiekisMokytoju(kiekMokytoju, duomenysMokytojai);
+    cout<<kiekMokytoju<<endl;
+    kiekisMokiniu(kiekMokiniu, duomenysMokiniai);
+    cout<<kiekMokiniu<<endl;
+
+    mokytojai Mokytojai[kiekMokytoju];
+    mokiniai Mokiniai[kiekMokiniu];
+
+    skaitomMokytojus(Mokytojai, kiekMokytoju, duomenysMokytojai);
+    skaitomMokinius(Mokiniai, kiekMokiniu, duomenysMokiniai);
+    rasomMokytojus(Mokytojai, kiekMokytoju, "Mokytojai \n");
+    rasomMokinius(Mokiniai, kiekMokiniu, "Mokiniai \n");
+    ieskomVienoduDalyku(Mokytojai, kiekMokytoju, Mokiniai, kiekMokiniu);
+
+    out.close();
+    return 0;
+}
+
+ void kiekisMokytoju(int &kiekMokytoju, const char byla1[]){
+    ifstream in(byla1);
+    mokytojai LaikinaMokytojuStruktura[1];
+    kiekMokytoju=0;
+    while(!in.eof()){
+        in>>LaikinaMokytojuStruktura[0].vardas>>LaikinaMokytojuStruktura[0].pavarde>>LaikinaMokytojuStruktura[0].dalykas;
+        kiekMokytoju++;
+    }
+    in.seekg(0);
+    in.close();
+ }
+
+  void kiekisMokiniu(int &kiekMokiniu, const char byla2[]){
+    ifstream in(byla2);
+    mokiniai LaikinaMokinuStruktura[1];
+    kiekMokiniu=0;
+    while(!in.eof()){
+        in>>LaikinaMokinuStruktura[0].vardas>>LaikinaMokinuStruktura[0].pavarde>>LaikinaMokinuStruktura[0].dalykas>>LaikinaMokinuStruktura[0].pazimys;
+        kiekMokiniu++;
+    }
+    in.seekg(0);
+    in.close();
+ }
+
+ void skaitomMokytojus(mokytojai mokytojaiDuomenys[], int kiekMokytoju, const char byla1[]){
+    ifstream in(byla1);
+    for(int i=0; i<kiekMokytoju; i++){
+        in>>mokytojaiDuomenys[i].vardas>>mokytojaiDuomenys[i].pavarde>>mokytojaiDuomenys[i].dalykas;
+    }
+    in.close();
+}
+
+ void skaitomMokinius(mokiniai mokiniaiDuomenys[], int kiekMokiniu, const char byla2[]){
+    ifstream in(byla2);
+    for(int i=0; i<kiekMokiniu; i++){
+        in>>mokiniaiDuomenys[i].vardas>>mokiniaiDuomenys[i].pavarde>>mokiniaiDuomenys[i].dalykas>>mokiniaiDuomenys[i].pazimys;
+    }
+    in.close();
+}
+
+void rasomMokytojus(mokytojai mokytojaiDuomenys[], int kiekMokytoju, string text){
+    out<<text;
+    for(int i=0; i<kiekMokytoju; i++){
+        out<<setw(4)<<left<<"Vardas: "<<mokytojaiDuomenys[i].vardas<<" Pavarde: "<<setw(4)<<right<<mokytojaiDuomenys[i].pavarde<<" Dalykas: "<<setw(4)<<right<<mokytojaiDuomenys[i].dalykas;
+        out<<endl;
+    }
+
+}
+
+void rasomMokinius(mokiniai mokiniaiDuomenys[], int kiekMokiniu, string text){
+    out<<text;
+    for(int i=0; i<kiekMokiniu; i++){
+        out<<setw(4)<<left<<mokiniaiDuomenys[i].vardas<<" "<<setw(4)<<right<<mokiniaiDuomenys[i].pavarde<<" "<<setw(4)<<right<<mokiniaiDuomenys[i].dalykas<<" "<<mokiniaiDuomenys[i].pazimys;
+        out<<endl;
+    }
+
+}
+
+void ieskomVienoduDalyku(mokytojai mokytojaiDuomenys[], int kiekMokytoju, mokiniai mokiniaiDuomenys[], int kiekMokiniu){
+    int laikinas;
+    for(int i=0; i<kiekMokytoju; i++){
+            laikinas=0;
+            for(int j=0; j<kiekMokiniu; j++){
+        if(mokytojaiDuomenys[i].dalykas == mokiniaiDuomenys[j].dalykas){
+            laikinas++;
+            }
+        }
+    mokytojaiDuomenys[i].mokiniuSkaicius=laikinas;
+    cout<<mokytojaiDuomenys[i].mokiniuSkaicius<<" "<<mokytojaiDuomenys[i].dalykas<<endl;
+    }
+}
